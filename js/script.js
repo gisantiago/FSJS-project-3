@@ -21,6 +21,7 @@ $('#design').change(function() {
         $("#color option[value='dimgrey']").hide();
     } else if ($('#design option:selected').val() === 'heart js') {
         $('#color').val('tomato').focus();
+
         $("#color option[value='tomato']").focus();
         $("#color option[value='cornflowerblue']").hide();
         $("#color option[value='darkslategrey']").hide();
@@ -30,11 +31,30 @@ $('#design').change(function() {
         $("#color option[value='dimgrey']").show();
     } else {
         punsFocus.focus();
-        $("#color option[value='cornflowerblue']").show();
-        $("#color option[value='darkslategrey']").show();
-        $("#color option[value='gold']").show();
-        $("#color option[value='tomato']").show();
-        $("#color option[value='steelblue']").show();
-        $("#color option[value='dimgrey']").show();
+        $('#color option').each(function(i) {
+            $(this).show();
+        });
+    }
+});
+
+$("#payment option[value='select_method']").prop('disabled', true);
+var creditCard = $('#payment').val('credit card');
+var creditCardDiv =  $('#credit-card').show();
+var paypalDiv = $('#paypal').hide();
+var bitcoainDiv = $('#bitcoin').hide();
+
+$('#payment').change(function() {
+    if($('#payment option:selected').val() === 'paypal'){
+        paypalDiv.show();
+        creditCardDiv.hide();
+        bitcoainDiv.hide();
+    } else if ($('#payment option:selected').val() === 'bitcoin') {
+        paypalDiv.hide();
+        creditCardDiv.hide();
+        bitcoainDiv.show();
+    } else {
+        paypalDiv.hide();
+        creditCardDiv.show();
+        bitcoainDiv.hide();
     }
 });
