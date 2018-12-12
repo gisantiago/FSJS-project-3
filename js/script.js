@@ -58,3 +58,67 @@ $('#payment').change(function() {
         bitcoainDiv.hide();
     }
 });
+
+/*** 
+ *  This function iterates over the input (Register for Activities) and add the values of each workshop selected (checked).
+ *  For this function to work properly I had to add a value attribute with the $$$ cost for each workshop.
+ * 
+ *  Dinamically adds the class "unavailable" to visually show when a workshop is not available. 
+* **/
+
+
+$('input[type=checkbox]').change(function() {
+    var total = 0;
+
+    $('input:checkbox:checked').each(function() {
+        total +=  parseInt($(this).val());
+    });
+    console.log(total);
+
+    if ($("input[name=js-frameworks]").prop("checked") === true) {
+        $("input[name=express]").prop("disabled", true);
+            $("input[name=express]")
+            .parent()
+            .addClass('unavailable');
+    } else {
+        $("input[name=express]").prop("disabled", false);
+            $("input[name=express]")
+            .parent()
+            .removeClass('unavailable');
+    }
+    if ($("input[name=express]").prop("checked") === true) {
+        $("input[name=js-frameworks]").prop("disabled", true);
+            $("input[name=js-frameworks]")
+            .parent()
+            .addClass('unavailable');
+    } else {
+        $("input[name=js-frameworks]").prop("disabled", false);
+            $("input[name=js-frameworks]")
+            .parent()
+            .removeClass('unavailable');
+    }
+    if ($("input[name=js-libs]").prop("checked") === true) {
+        $("input[name=node]").prop("disabled", true);
+            $("input[name=node]")
+            .parent()
+            .addClass('unavailable');
+    } else {
+        $("input[name=node]").prop("disabled", false);
+            $("input[name=node]")
+            .parent()
+            .removeClass('unavailable');
+    }
+    if ($("input[name=node]").prop("checked") === true) {
+        $("input[name=js-libs]").prop("disabled", true);
+            $("input[name=js-libs]")
+            .parent()
+            .addClass('unavailable');
+    } else {
+        $("input[name=js-libs]").prop("disabled", false);
+            $("input[name=js-libs]")
+            .parent()
+            .removeClass('unavailable');
+    }
+     
+});
+
