@@ -180,6 +180,10 @@ button:hover {
 	}
 }
 
+/* ============================================ 
+  Custom Classes to manage disabled checkboxes
+============================================ */
+
 .strikethrough {
 	text-decoration:line-through;
 }
