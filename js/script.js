@@ -142,30 +142,36 @@ $('input[type=checkbox]').click(function() {
 
 const validateName = () => {
     var name = $('#name').val();
+    var valid = true;
+
     if (name === "") {
         if ($('#validate-name').length === 0) {
             $('#name').after('<p class="validateForm" id="validate-name">Name must be filled out</p>');
-            return false;
-        }     
+        }
+        valid = false;     
     } else {
         $('#validate-name').remove();
     } 
+    return valid;
 }
 
 const validateEmail = (mail) => {
     var mail = $('#mail').val();
     var regex = /^[\w\-\.\+]+\@[a-zA-Z0-9\.\-]+\.[a-zA-z0-9]{2,4}$/;
+    var valid = true;
 
     if (!regex.test(mail)){
         if ($('#validate-mail').length === 0){
             $('#mail').after('<p class="validateForm" id="validate-mail">Please enter a valid email: example@domain.com</p>');
-            return false;
+            
         }   
+        valid = false;
     } else {
         $('#validate-mail').remove();
-        return true;
+        
     } 
 
+    return valid;
     // if (mail === "") {
     //     if ($('#validate-mail').length === 0) {
     //         $('#mail').after('<p class="validateForm" id="validate-mail">Email must be filled out</p>');
@@ -201,8 +207,6 @@ const validateCreditCard = () => {
         if (ccNum === "" || zip === "" || cvv === "") {
             if ($('#validate-cc').length === 0) {
                 message += $('#credit-card').before('<p class="validateForm" id="validate-cc">Credit Card fields are required!</p>');
-                //alert('Credit Card fields are required!');
-                
             }
             valid = false;
         } else {
@@ -226,8 +230,6 @@ const validateCreditCard = () => {
         return valid;
         console.log(valid);
     }
-    
-    
 }
 
 $('button').click(function () {
@@ -236,5 +238,4 @@ $('button').click(function () {
     validateCheckbox();
     validateCreditCard();
     event.preventDefault();
-    
 });
