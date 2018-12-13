@@ -59,22 +59,41 @@ $('#payment').change(function() {
     }
 });
 
+// Hide the div that contains the input with the workshop totals
+const hideTotal = () => {
+    $('#total')
+    .hide()
+    .removeClass('total');
+}
+hideTotal();
+
 /*** 
- *  This function iterates over the input (Register for Activities) and add the values of each workshop selected (checked).
+ *  This function iterates over the checkboxes (Register for Activities) and add the values of each workshop selected (checked).
  *  For this function to work properly I had to add a value attribute with the $$$ cost for each workshop.
- * 
- *  Dinamically adds the class "unavailable" to visually show when a workshop is not available. 
 * **/
 
-
-$('input[type=checkbox]').change(function() {
+const calAndShowTotalCheckbox = () => {
     var total = 0;
+    $('#total')
+    .addClass('total')
+    .show()
 
     $('input:checkbox:checked').each(function() {
-        total +=  parseInt($(this).val());
+        total +=  parseInt($(this).attr('value')) || 0;
     });
-    console.log(total);
+     
+    $('#total input').val("Total Activities Selected: $" + total);
 
+    if (total === 0) {
+        hideTotal();
+    }
+}
+
+ 
+$('input[type=checkbox]').click(function() {
+    calAndShowTotalCheckbox();
+
+    // Dinamically adds the class "unavailable" to visually show when a workshop is not available. 
     if ($("input[name=js-frameworks]").prop("checked") === true) {
         $("input[name=express]").prop("disabled", true);
             $("input[name=express]")
@@ -118,7 +137,101 @@ $('input[type=checkbox]').change(function() {
             $("input[name=js-libs]")
             .parent()
             .removeClass('unavailable');
-    }
-     
+    } 
 });
 
+const validateName = () => {
+    var name = $('#name').val();
+    if (name === "") {
+        if ($('#validate-name').length === 0) {
+            $('#name').after('<p class="validateForm" id="validate-name">Name must be filled out</p>');
+            return false;
+        }     
+    } else {
+        $('#validate-name').remove();
+    } 
+}
+
+const validateEmail = (mail) => {
+    var mail = $('#mail').val();
+    var regex = /^[\w\-\.\+]+\@[a-zA-Z0-9\.\-]+\.[a-zA-z0-9]{2,4}$/;
+
+    if (!regex.test(mail)){
+        if ($('#validate-mail').length === 0){
+            $('#mail').after('<p class="validateForm" id="validate-mail">Please enter a valid email: example@domain.com</p>');
+            return false;
+        }   
+    } else {
+        $('#validate-mail').remove();
+        return true;
+    } 
+
+    // if (mail === "") {
+    //     if ($('#validate-mail').length === 0) {
+    //         $('#mail').after('<p class="validateForm" id="validate-mail">Email must be filled out</p>');
+    //         return false;
+    //     } 
+    // }  else {
+    //     $('#validate-mail').remove();
+    //     return true;
+    // } 
+}
+
+const validateCheckbox = () => {
+    $('input:checkbox').each(function(){
+        if ($(this).prop('checked') === false){ 
+            alert('At least one activity must be selected before submitting the form!');
+            return false;
+        } 
+    });
+}
+
+const validateCreditCard = () => {
+    var message = "";
+    var valid = true;
+
+    if($('#payment option:selected').val() === 'credit card'){
+        var ccNum = $('#cc-num').val();
+        var ccRegex = /^[0-9]{13,16}$/
+        var zip = $('#zip').val()
+        var zipRegex = /^[0-9]{5,5}$/;
+        var cvv = $('#cvv').val()
+        var cvvRegex = /^[0-9]{3,3}$/;
+        
+        if (ccNum === "" || zip === "" || cvv === "") {
+            if ($('#validate-cc').length === 0) {
+                message += $('#credit-card').before('<p class="validateForm" id="validate-cc">Credit Card fields are required!</p>');
+                //alert('Credit Card fields are required!');
+                valid =  false;
+            }
+        } else {
+            $('#validate-cc').remove();
+        }
+        if (ccNum.length > 0 || zip.length > 0 || cvv.length > 0) {
+            if (!ccRegex.test(ccNum)) {
+                alert('Credit Card Number is Invalid! The number should be between 13-16 digits.');
+                valid = false;
+            }
+            if ( !zipRegex.test(zip) ) {
+                alert('ZIP CODE is Invalid!!!!!!!!!!!!');
+                valid = false;
+            }
+            if ( !cvvRegex.test(cvv) ) {
+                alert('CVV is Invalid!!!!!!!!!!!!');
+                //$('#cvv').css('border-color', 'red');
+                valid = false;
+            }
+        }
+        
+    }
+    return valid;
+}
+
+$('button').click(function () {
+    validateName();
+    validateEmail();
+    validateCheckbox();
+    validateCreditCard();
+    event.preventDefault();
+    
+});

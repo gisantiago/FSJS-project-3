@@ -187,8 +187,8 @@ button:hover {
 .strikethrough {
 	text-decoration:line-through;
 }
+
 .unavailable:after{
-	
 	content: "Unavailable";
 	color: #fff;
 	font-size: 10px;
@@ -196,6 +196,23 @@ button:hover {
 	padding: 3px 6px;
 	margin-left: 5px;
 	border-radius: 3px;
-	
-  }
+}
+
+.total {
+	background-origin: padding-box;
+	background-color: rgb(193, 222, 235);
+	border: black solid .5px;
+	border-radius: 5px;
+	margin-right: 435px;
+	padding-left: 4px;  
+}
+
+.validateForm{
+	color: #fff;
+	font-size: 15px;
+	background-color: red;
+	padding: 3px 6px;
+	margin-left: 5px;
+	border-radius: 3px;
+}
 
