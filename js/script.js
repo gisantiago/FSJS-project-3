@@ -202,8 +202,9 @@ const validateCreditCard = () => {
             if ($('#validate-cc').length === 0) {
                 message += $('#credit-card').before('<p class="validateForm" id="validate-cc">Credit Card fields are required!</p>');
                 //alert('Credit Card fields are required!');
-                valid =  false;
+                
             }
+            valid = false;
         } else {
             $('#validate-cc').remove();
         }
@@ -222,9 +223,11 @@ const validateCreditCard = () => {
                 valid = false;
             }
         }
-        
+        return valid;
+        console.log(valid);
     }
-    return valid;
+    
+    
 }
 
 $('button').click(function () {
