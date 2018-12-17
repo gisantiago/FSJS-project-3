@@ -52,7 +52,7 @@ $(document).ready(function(){
     /**
      * Credit Card option is selected by default.
      * This function filter all the payment options.
-     * It hides\shows payments. If a payment is selcted, the others will be hidden.  
+     * It hides\shows payments. If a payment is selected, the others will be hidden.  
     **/
 
     $("#payment option[value='select_method']").prop('disabled', true);
@@ -110,13 +110,13 @@ $(document).ready(function(){
 
     /*** 
      *  Iterates over the checkboxes (Register for Activities) and add the unavailable label if the
-     *  activity conflits with another. I created a custom class and css code for this.
+     *  activity conflicts with another. I created a custom class and css code for this.
     * **/
 
     $('input[type=checkbox]').click(function() {
         calAndShowTotalCheckbox();
 
-        // Dinamically adds the class "unavailable" to visually show when a workshop is not available. 
+        // Dynamically adds the class "unavailable" to visually show when a workshop is not available. 
         if ($("input[name=js-frameworks]").prop("checked") === true) {
             $("input[name=express]").prop("disabled", true);
                 $("input[name=express]")
@@ -216,7 +216,7 @@ $(document).ready(function(){
         return valid;
     });
 
-    // Validates the checkboxes options and if none is selected it promts a window alert with a message when the form is submitted.
+    // Validates the checkboxes options and if none is selected it prompts a window alert with a message when the form is submitted.
     const validateCheckbox = () => {
         var valid = true;
 
