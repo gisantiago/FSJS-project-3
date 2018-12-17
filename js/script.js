@@ -86,7 +86,7 @@ $(document).ready(function(){
     hideTotal();
 
     /*** 
-     *  Iterates over the checkboxes (Register for Activities) and add the values of each workshop selected (checked).
+     *  Iterates over the checkboxes (Register for Activities) and add the values of each workshop selected (checked).  
      *  For this function to work properly I had to add a value attribute with the $$$ cost for each workshop.
     * **/
 
@@ -177,6 +177,7 @@ $(document).ready(function(){
             valid = false;     
         } else {
             $('#validate-name').remove();
+            valid = true;
         } 
         return valid;
     }
@@ -195,7 +196,7 @@ $(document).ready(function(){
             valid = false;
         } else {
             $('#validate-mail').remove();
-            
+            valid = true;
         } 
         return valid;
     }
@@ -212,6 +213,7 @@ $(document).ready(function(){
             return false
         } else {
             $('#validate-mail').remove();
+            valid = true;
         }
         return valid;
     });
@@ -220,14 +222,28 @@ $(document).ready(function(){
     const validateCheckbox = () => {
         var valid = true;
 
-        if ($('input:checkbox:checked').length > 0) {
-            valid = true;
-        } else {
-            alert('At least one activity must be selected before submitting the form!');
+        if ($('input:checkbox:checked').length === 0){
+            if ($('#validate-checkbox').length === 0){
+                $('#total').before('<p class="validateForm" id="validate-checkbox">At least one activity must be selected before submitting the form!</p>');
+            }   
             valid = false;
-        }
+        } else {
+            $('#validate-checkbox').remove();
+            valid = true;
+        } 
         return valid;
     }
+
+    // Removes the error message if at least one of the checkboxes is checked.
+    $('input:checkbox').change(function () {
+        if ($('input:checkbox:checked').length > 0) {
+            if ($('#validate-checkbox').length > 0){ 
+                $('#validate-checkbox').remove();
+                return true;
+            }
+        }
+    });
+    
 
     /*** 
      *  Validates the credit card fields and ensures none of the fields are empty. 
@@ -253,6 +269,7 @@ $(document).ready(function(){
                 valid = false;
             } else {
                 $('#validate-cc').remove();
+                valid = true;
             }
             if (ccNum.length > 0 || zip.length > 0 || cvv.length > 0) {
                 if (!ccRegex.test(ccNum)) {
@@ -268,6 +285,8 @@ $(document).ready(function(){
                     //$('#cvv').css('border-color', 'red');
                     valid = false;
                 }
+            } else {
+                valid = true;
             }
             return valid;
             console.log(valid);
@@ -279,6 +298,16 @@ $(document).ready(function(){
         }
     }
 
+    
+    // reset the form if all inputs are valid (true)
+    const resetForm = () => {
+        if (validateName() === true && validateEmail() === true && validateCheckbox() === true && validateCreditCard() === true) {
+            $('#form')[0].reset();
+            hideTotal();
+            return true;
+        }
+    }
+
     // Form submit button - calls all other function 
     $('button').click(function () {
         validateName();
@@ -286,5 +315,7 @@ $(document).ready(function(){
         validateCheckbox();
         validateCreditCard();
         event.preventDefault();
+        resetForm();
+       
     });
 });
