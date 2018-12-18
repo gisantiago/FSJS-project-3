@@ -301,46 +301,36 @@ $(document).ready(function(){
 
     // Validates zip code field in real-time ---checks for correct email format--- (5 digits)
     $('#zip').on('keyup', function () {
-        var zip = $('#zip').val();
         var zipRegex = /^[0-9]{5,5}$/;
-        var valid = true;
 
-        if (zip.length > 0 ) {
-            if ( !zipRegex.test(zip) ) {
-                if ($('#validate-zip').length === 0) {
-                    $('#zip').before('<p class="validateForm" id="validate-zip">**ZIP CODE is Invalid. Must be 5 digits**</p>'); 
-                }
-                valid = false;
-                event.preventDefault();
-            } else {
-                $('#validate-zip').remove();
-                valid = true;
+        if (!$(this).val().match(zipRegex)) {
+            if ($('#validate-zip').length === 0) {
+                $('#zip').before('<p class="validateForm" id="validate-zip">**ZIP CODE is Invalid. Must be 5 digits**</p>'); 
             }
-        }
-        return valid;
+            return false;
+        } else {
+                $('#validate-zip').remove();
+                return true;
+            }
     });
     
 
     // Validates cvv field in real-time ---checks for correct email format--- (3 digits)
 
-    $('#cvv').on('keyup', function (e) {
-        var cvv = $('#cvv').val();
+    $('#cvv').on('keyup', function () {
         var cvvRegex = /^[0-9]{3,3}$/;
-        var valid = true;
-
-        if (cvv.length > 0 ) {
-            if ( !cvvRegex.test(cvv) ) {
-                if ($('#validate-cvv').length === 0) {
-                    $('#cvv').before('<p class="validateForm" id="validate-cvv">**CVV is Invalid. Must be 3 digits**</p>');
-                    //$('#cvv').css('border-color', 'red');
-                    valid = false;
-                }
-            }else {
-                $('#validate-cvv').remove();
-                valid = true;
+      
+        if (!$(this).val().match(cvvRegex)) {
+            if ($('#validate-cvv').length === 0) {
+                $('#cvv').before('<p class="validateForm" id="validate-cvv">**CVV is Invalid. Must be 3 digits**</p>');
+                //$('#cvv').css('border-color', 'red');
             }
+            return false;
+        }else {
+            $('#validate-cvv').remove();
+            return true;
         }
-        return valid;
+    
     });
  
 
