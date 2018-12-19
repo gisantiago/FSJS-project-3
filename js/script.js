@@ -2,6 +2,7 @@ $(document).ready(function(){
 
     // Apply the focus to the name field every time the form is loaded.
     $('#name').focus();
+    $('#other-title').hide();
 
     $('#title').change(function() {
         if($("#title option:selected").val() === 'other') {
