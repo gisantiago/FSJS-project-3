@@ -335,24 +335,6 @@ $(document).ready(function(){
         }
     });
 
-
-
-    
-    // reset the form if all inputs are valid (true)
-    // const resetForm = () => {
-    //     if (validateZip() === true && validateName() === true && validateEmail() === true && validateCheckbox() === true && validateCreditCard() === true && validateCCNum() === true && validateCVV() === true) {
-    //         $('#form')[0].reset();
-    //         $('input:checkbox').each(function () {
-    //             $('input:checkbox')
-    //             .parent()
-    //             .removeClass('unavailable');
-    //         });
-    //         hideTotal();
-    //         $('#name').focus();
-    //         return true;
-    //     }
-    // }
-
     // Form submit button - calls all other function 
     $('button').click(function () {
         validateName();
