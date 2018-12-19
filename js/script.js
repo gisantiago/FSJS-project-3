@@ -188,6 +188,7 @@ $(document).ready(function(){
     * **/
     const validateEmail = (mail) => {
         var mail = $('#mail').val();
+        var emailRegex = /^[\w\-\.\+]+\@[a-zA-Z0-9\.\-]+\.[a-zA-z0-9]{2,4}$/;
         var valid = true;
 
         if (mail === ""){
@@ -196,7 +197,10 @@ $(document).ready(function(){
             }   
             valid = false;
             event.preventDefault();
-        } else {
+        } else if (!emailRegex.test(mail)){
+            valid = false;
+            event.preventDefault();
+        }else {
             $('#validate-mail').remove();
             valid = true;
         } 
@@ -206,17 +210,16 @@ $(document).ready(function(){
     // Validates email field in real-time ---checks for correct email format---
     $('#mail').on('keyup', function() {
         var emailRegex = /^[\w\-\.\+]+\@[a-zA-Z0-9\.\-]+\.[a-zA-z0-9]{2,4}$/;
-    
+        
         if(!$(this).val().match(emailRegex)) {
             if ($('#validate-mail').length === 0) { 
                 $('#mail').before('<p class="validateForm" id="validate-mail">Please enter a valid email: example@domain.com</p>');
             }
-            return false;
         } else {
             $('#validate-mail').remove();
-            return true;
         } 
     });
+    
         
     // Validates the checkboxes options and if none is selected it prompts a window alert with a message when the form is submitted.
     const validateCheckbox = () => {
@@ -262,16 +265,20 @@ $(document).ready(function(){
             var cvv = $('#cvv').val();
             var cvvRegex = /^[0-9]{3,3}$/;
             
-            if (ccNum === "" || zip === "" || cvv === "") {
+            if (ccNum === "" || zip === "" || cvv === "" ) {
                 if ($('#validate-cc').length === 0) {
                     message += $('#payment').before('<p class="validateForm" id="validate-cc">Credit Card fields are required!</p>');
                 }
+                valid = false;
+                event.preventDefault();
+            } else if (!ccRegex.test(ccNum) || !zipRegex.test(zip) || !cvvRegex.test(cvv)){
                 valid = false;
                 event.preventDefault();
             } else {
                 $('#validate-cc').remove();
                 valid = true;
             }
+
             return valid;
             console.log(valid);
         }
@@ -285,19 +292,18 @@ $(document).ready(function(){
 
     // Validates credit card number field in real-time ---checks for correct email format--- (13-16 digits)
     $('#cc-num').on('keyup', function () {
+        var ccNum = $('#cc-num').val();
         var ccRegex = /^[0-9]{13,16}$/;
-
-        if (!$(this).val().match(ccRegex)) {
+        
+        if (!ccRegex.test(ccNum)) {
             if ($('#validate-num').length === 0) {
                 $('#cc-num').before('<p class="validateForm" id="validate-num">Credit Card Number is Invalid! The number should be between 13-16 digits.</p>'); 
             }
-            return false;
-        } else {
+        }else {
             $('#validate-num').remove();
-            return true;
-        }
+        } 
     });
-    
+
 
     // Validates zip code field in real-time ---checks for correct email format--- (5 digits)
     $('#zip').on('keyup', function () {
@@ -307,48 +313,45 @@ $(document).ready(function(){
             if ($('#validate-zip').length === 0) {
                 $('#zip').before('<p class="validateForm" id="validate-zip">**ZIP CODE is Invalid. Must be 5 digits**</p>'); 
             }
-            return false;
         } else {
-                $('#validate-zip').remove();
-                return true;
-            }
+            $('#validate-zip').remove();
+        }
     });
+
     
 
     // Validates cvv field in real-time ---checks for correct email format--- (3 digits)
-
     $('#cvv').on('keyup', function () {
         var cvvRegex = /^[0-9]{3,3}$/;
-      
+        
         if (!$(this).val().match(cvvRegex)) {
             if ($('#validate-cvv').length === 0) {
                 $('#cvv').before('<p class="validateForm" id="validate-cvv">**CVV is Invalid. Must be 3 digits**</p>');
                 //$('#cvv').css('border-color', 'red');
             }
-            return false;
         }else {
             $('#validate-cvv').remove();
-            return true;
+
         }
-    
     });
- 
+
+
 
     
     // reset the form if all inputs are valid (true)
-    const resetForm = () => {
-        if (validateName() === true && validateEmail() === true && validateCheckbox() === true && validateCreditCard() === true ) {
-            $('#form')[0].reset();
-            $('input:checkbox').each(function () {
-                $('input:checkbox')
-                .parent()
-                .removeClass('unavailable');
-            });
-            hideTotal();
-            $('#name').focus();
-            return true;
-        }
-    }
+    // const resetForm = () => {
+    //     if (validateZip() === true && validateName() === true && validateEmail() === true && validateCheckbox() === true && validateCreditCard() === true && validateCCNum() === true && validateCVV() === true) {
+    //         $('#form')[0].reset();
+    //         $('input:checkbox').each(function () {
+    //             $('input:checkbox')
+    //             .parent()
+    //             .removeClass('unavailable');
+    //         });
+    //         hideTotal();
+    //         $('#name').focus();
+    //         return true;
+    //     }
+    // }
 
     // Form submit button - calls all other function 
     $('button').click(function () {
@@ -356,10 +359,5 @@ $(document).ready(function(){
         validateEmail();
         validateCheckbox();
         validateCreditCard();
-        zipCode();
-        cvvNumber();
-       
-        resetForm();
-       
     });
 });
